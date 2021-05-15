@@ -20,6 +20,8 @@ print("------------------------------")
 
 lea = input("Please input a League code ")
 div = input("Please input a Division code ")
+lea = int(lea)
+div = int(div)
 
 def get_division_standings(league,division):
     standings = pd.DataFrame(statsapi.standings_data(league)[division]['teams'])
@@ -27,7 +29,7 @@ def get_division_standings(league,division):
     df = pd.DataFrame(statsapi.standings_data(league)[division]['teams'])
     print(df)
     return standings
-get_division_standings(104,204) #make this a user input
+get_division_standings(lea,div) 
 
 def get_player_ids(name):
     players = statsapi.lookup_player(name)
@@ -36,7 +38,8 @@ def get_player_ids(name):
         player_ids.append(id_['id'])
     return player_ids
 
-player = input("Please input a player last name to find hitting stats ")
+player = input("Please input a player full name to find hitting stats ")
+player = str(player)
 
 def get_stats_from_ids(name, stat_type):
     #get player IDs
@@ -51,4 +54,4 @@ def get_stats_from_ids(name, stat_type):
             pass
     dfr = pd.DataFrame(player_stats_list)      
     print(dfr)  
-get_stats_from_ids('Swanson','hitting') #make this a user input, probably only show hitting stats would be better
+get_stats_from_ids(player,'hitting')
