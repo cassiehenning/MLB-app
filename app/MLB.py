@@ -1,6 +1,18 @@
 import statsapi
 import pandas as pd
 import numpy as np
+import os
+import json
+from pprint import pprint
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+import requests
+from datetime import date
+from dotenv import load_dotenv
+from app.email_service import send_email
+from app import APP_ENV
+
+load_dotenv
 
 print("------------------------------")
 print("Hi! Welcome to the MLB app!")
@@ -18,16 +30,21 @@ print("National League East 204")
 print("National League Central 205")
 print("------------------------------")
 
-lea = input("Please input a League code ")
-div = input("Please input a Division code ")
-lea = int(lea)
-div = int(div)
+if APP_ENV == "development":
+    lea = input("Please input a League code ")
+    div = input("Please input a Division code ")
+    lea = int(lea)
+    div = int(div)
+else:
+    Lea = 104
+    div = 204
 
 def get_division_standings(league,division):
     standings = pd.DataFrame(statsapi.standings_data(league)[division]['teams'])
     standings = standings[['name','w','l']]
     df = pd.DataFrame(statsapi.standings_data(league)[division]['teams'])
-    print(df)
+    format_div_standings = df.to_html()
+    print(format_div_standings)
     return standings
 get_division_standings(lea,div) 
 
@@ -38,8 +55,11 @@ def get_player_ids(name):
         player_ids.append(id_['id'])
     return player_ids
 
-player = input("Please input a player full name to find hitting stats ")
-player = str(player)
+if APP_ENV == "development":
+    player = input("Please input a player full name to find hitting stats ")
+    player = str(player)
+else:
+    player = 'Dansby Swanson'
 
 def get_stats_from_ids(name, stat_type):
     #get player IDs
@@ -52,6 +72,24 @@ def get_stats_from_ids(name, stat_type):
             player_stats_list.append(stats)
         except: 
             pass
-    dfr = pd.DataFrame(player_stats_list)      
-    print(dfr)  
+    dfr = pd.DataFrame(player_stats_list)  
+    format_stats = dfr.to_html()    
+    print(format_stats)  
 get_stats_from_ids(player,'hitting')
+
+if __name__ == "__main__":
+    subject = "Your MLB update" #This tests to make sure the email capabilities are working correctly
+
+    html = f""" 
+    <body style="background-color:whitesmoke;">
+    <h2 style="color: darkslateblue;">Hi, here are your MLB updates!</h3>
+    <h4 style="color: grey;">Today's Date</h4>
+    <p style="color: grey;">{date.today().strftime('%A, %B %d, %Y')}</p>
+    <h2 style="color: darkslateblue;">Standings</h4>
+        <p>{get_division_standings(lea,div)}</p>
+    <h2 style="color: darkslateblue;">Hitting Stats</h4>
+        <p>{get_stats_from_ids(player,'hitting')}</p>
+    <h2 style="color: darkslateblue;">Have a good day!</h2>
+    """
+
+    send_email(subject, html)

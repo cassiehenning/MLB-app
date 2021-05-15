@@ -1,4 +1,8 @@
 requests
+MLB-StatsAPI
 pytest
 pytest-mock
 responses
+pandas
+python-dotenv
+sendgrid==6.0.5
