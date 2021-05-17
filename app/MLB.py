@@ -42,7 +42,7 @@ if APP_ENV == "development":
     lea = int(lea)
     div = int(div)
 else:
-    Lea = 104
+    lea = 104
     div = 204
 
 if div == 200:
@@ -60,7 +60,10 @@ else:
                 if div == 204:
                     division = "National League East"
                 else:
-                    division = "National League Central"
+                    if div == 205:
+                        division = "National League Central"
+                    else:
+                        print("We are sorry, we could not find that division code. Please try again from the division codes above.")                            
 
 def get_division_standings(league,division):
     standings = pd.DataFrame(statsapi.standings_data(league)[division]['teams'])
