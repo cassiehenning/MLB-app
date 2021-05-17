@@ -2,12 +2,9 @@ from numpy.core.numeric import False_
 import statsapi
 import pandas as pd
 import numpy as np
-#import os
-#import json
 from pprint import pprint
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-#import requests
 from datetime import date
 from dotenv import load_dotenv
 from app.email_service import send_email
@@ -126,3 +123,5 @@ if __name__ == "__main__":
     """
 
     send_email(subject, html)
+
+print("We have sent you an email with your requests! Have a good day!")

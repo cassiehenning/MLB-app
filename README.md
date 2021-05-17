@@ -47,7 +47,7 @@ NOTE: the Sendgrid emails might first start showing up in spam, until you design
 As long as each of those scripts works by itself, you can send the email:
 
 ```sh
-python -m app.service # note the module-syntax invocation
+python -m app.MLB # note the module-syntax invocation
 ```
 
 ## Deployment to Heroku
