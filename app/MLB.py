@@ -2,12 +2,12 @@ from numpy.core.numeric import False_
 import statsapi
 import pandas as pd
 import numpy as np
-import os
-import json
+#import os
+#import json
 from pprint import pprint
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-import requests
+#import requests
 from datetime import date
 from dotenv import load_dotenv
 from app.email_service import send_email
@@ -33,16 +33,20 @@ if APP_ENV == "development":
         print("------------------------------")
         div = input("Please input a Division code for the American League ")
     else:
-        print("The codes for Divisions are as follows...")
-        print("National League West 203")
-        print("National League East 204")
-        print("National League Central 205")
-        print("------------------------------")
-        div = input("Please input a Division code for the National League ")
+        if lea == "104":
+            print("The codes for Divisions are as follows...")
+            print("National League West 203")
+            print("National League East 204")
+            print("National League Central 205")
+            print("------------------------------")
+            div = input("Please input a Division code for the National League ")
+        else:
+            print("We are sorry, we could not find that League code. Please try again")
+            exit()
     lea = int(lea)
     div = int(div)
 else:
-    Lea = 104
+    lea = 104
     div = 204
 
 if div == 200:
@@ -60,7 +64,11 @@ else:
                 if div == 204:
                     division = "National League East"
                 else:
-                    division = "National League Central"
+                    if div == 205:
+                        division = "National League Central"
+                    else:
+                        print("We are sorry, we could not find that division code. Please try again from the division codes above.")                            
+                        exit()
 
 def get_division_standings(league,division):
     standings = pd.DataFrame(statsapi.standings_data(league)[division]['teams'])
