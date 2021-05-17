@@ -34,7 +34,7 @@ MY_NAME="Jon Snow"
 IMPORTANT: remember to save the ".env" file 
 ```
 
-## Usage
+# Usage
 From within the virtual environment, ensure you can run the following file and see it produce their desired results of sending an example email
 
 ```sh
@@ -101,15 +101,15 @@ git push heroku master
 
 NOTE: any time you update your source code, you can repeat this deployment command to upload your new code onto the server
 
-## Running the Script
+# Running the Script
 Once you've deployed the source code to the Heroku server, login to the server to see the files there, and take an opportunity to test your ability to run the script that now lives on the server:
 
 heroku run bash # login to the server
-# ... ls -al # optionally see the files, nice!
-# ... python -m app.service # see the output, nice!
-# ... exit # logout
+... ls -al # optionally see the files, nice!
+... python -m app.service # see the output, nice!
+... exit # logout
 
-# or alternatively, run it from your computer, in "detached" mode:
+## or alternatively, run it from your computer, in "detached" mode:
 
 ```sh
 heroku run "python -m app.MLB"
