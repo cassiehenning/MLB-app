@@ -125,5 +125,5 @@ Finally, click on the provisioned "Heroku Scheduler" resource from the "Resource
 ## Testing
 Run tests
 ```sh
-pytest
+pytest -s
 ```
